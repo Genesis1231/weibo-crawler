@@ -26,11 +26,10 @@ from lxml import etree
 from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
-import const
-from util import csvutil
-from util.dateutil import convert_to_days_ago
-from util.notify import push_deer
-from util.llm_analyzer import LLMAnalyzer  # 导入 LLM 分析器
+from . import const
+from .util import csvutil
+from .util.dateutil import convert_to_days_ago
+from .util.notify import push_deer
 
 warnings.filterwarnings("ignore")
 
@@ -1314,7 +1313,7 @@ class Weibo(object):
         isTop=False
         # Only works for sim chinese
         if "mblog" in info and "title" in info["mblog"] and "text" in info["mblog"]["title"] and info["mblog"]["title"]["text"]=="置顶":
-        	isTop=True
+            isTop=True
         return isTop
     
 
@@ -1467,16 +1466,15 @@ class Weibo(object):
         except KeyError:
             logger.exception(
                 "程序出错，错误原因可能为以下两者：\n"
-                "1.user_id不正确；\n"
+                "1.user_id不正确\n"
                 "2.此用户微博可能需要设置cookie才能爬取。\n"
                 "解决方案：\n"
                 "请参考\n"
                 "https://github.com/dataabc/weibo-crawler#如何获取user_id\n"
-                "获取正确的user_id；\n"
+                "获取正确的user_id\n"
                 "或者参考\n"
                 "https://github.com/dataabc/weibo-crawler#3程序设置\n"
-                "中的“设置cookie”部分设置cookie信息"
-            )
+                "中的'设置cookie'部分设置cookie信息")
 
     def get_write_info(self, wrote_count):
         """获取要写入的微博信息"""
