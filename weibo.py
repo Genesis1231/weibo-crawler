@@ -5,8 +5,6 @@ import codecs
 import copy
 import csv
 import json
-import logging
-import logging.config
 import math
 import os
 import random
@@ -21,6 +19,7 @@ from pathlib import Path
 from time import sleep
 
 import requests
+from config import logger
 from requests.exceptions import RequestException
 from lxml import etree
 from requests.adapters import HTTPAdapter
@@ -33,12 +32,6 @@ from .util.notify import push_deer
 
 warnings.filterwarnings("ignore")
 
-# 如果日志文件夹不存在，则创建
-if not os.path.isdir("log/"):
-    os.makedirs("log/")
-logging_path = os.path.split(os.path.realpath(__file__))[0] + os.sep + "logging.conf"
-logging.config.fileConfig(logging_path)
-logger = logging.getLogger("weibo")
 
 # 日期时间格式
 DTFORMAT = "%Y-%m-%dT%H:%M:%S"
