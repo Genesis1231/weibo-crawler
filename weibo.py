@@ -1315,9 +1315,9 @@ class Weibo(object):
         try:
             js = self.get_weibo_json(page)
             import json
-            with open('js.json','w') as f:
-                #写入方式1，等价于下面这行
-                json.dump(js,f) #把列表numbers内容写入到"list.json"文件中
+            # with open('js.json','w') as f:
+            #     #写入方式1，等价于下面这行
+            #     json.dump(js,f) #把列表numbers内容写入到"list.json"文件中
             if js["ok"]:
                 weibos = js["data"]["cards"]
                 
