@@ -98,10 +98,10 @@ class Weibo(object):
         self.headers = {
             'Referer': 'https://weibo.com/',
             'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+            'accept-language': 'en,zh-CN;q=0.9,zh;q=0.8',
             'cache-control': 'max-age=0',
             'priority': 'u=0, i',
-            'sec-ch-ua': '"Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"',
+            'sec-ch-ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',
@@ -565,7 +565,7 @@ class Weibo(object):
         """获取长微博"""
         url = "https://m.weibo.cn/detail/%s" % id
         logger.info(f"""URL: {url} """)
-        for i in range(5):
+        for i in range(10):
             sleep(random.uniform(1.0, 2.5))
             html = self.session.get(url, headers=self.headers, verify=False).text
             html = html[html.find('"status":') :]
