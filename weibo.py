@@ -96,19 +96,12 @@ class Weibo(object):
                 key, value = pair.split('=', 1)
                 cookies[key.strip()] = value.strip()
         self.headers = {
-            'Referer': 'https://weibo.com/',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'accept-language': 'en,zh-CN;q=0.9,zh;q=0.8',
-            'cache-control': 'max-age=0',
-            'priority': 'u=0, i',
-            'sec-ch-ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-site': 'same-origin',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0',
+            'Referer': 'https://m.weibo.cn/',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",
+            'Cache-Control': 'max-age=0',
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
         }
         self.mysql_config = config.get("mysql_config")  # MySQL数据库连接配置，可以不填
         self.mongodb_URI = config.get("mongodb_URI")  # MongoDB数据库连接字符串，可以不填
@@ -116,7 +109,7 @@ class Weibo(object):
         self.page_weibo_count = config.get("page_weibo_count")  # page_weibo_count，爬取一页的微博数，默认10页
         
         # 初始化 LLM 分析器
-        self.llm_analyzer = LLMAnalyzer(config) if config.get("llm_config") else None
+        self.llm_analyzer = None
         
         user_id_list = config["user_id_list"]
         requests_session = requests.Session()
@@ -565,9 +558,10 @@ class Weibo(object):
         """获取长微博"""
         url = "https://m.weibo.cn/detail/%s" % id
         logger.info(f"""URL: {url} """)
-        for i in range(10):
+        for i in range(3):
             sleep(random.uniform(1.0, 2.5))
             html = self.session.get(url, headers=self.headers, verify=False).text
+            
             html = html[html.find('"status":') :]
             html = html[: html.rfind('"call"')]
             html = html[: html.rfind(",")]
